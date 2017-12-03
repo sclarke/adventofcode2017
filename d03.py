@@ -35,16 +35,48 @@ def get_xy_coord(n):
                 return (x - 1, y) if (x > -y) else (x, y - 1)
             else:
                 # spiral is going right on bottom (y is negative)
-                return (x + 1, y)# if (x < -y) else (x, y + 1)
+                return (x + 1, y)  # keep going right past x == -y so no if/else needed
 
 
-for i in range(1, 368079):
+puzzle_input = 368078
+for i in range(1, puzzle_input + 1):
     mygrid[i] = get_xy_coord(i)
 
-def manhattan_dist(coords):
-    return sum(abs(n) for n in coords)
 
-for n in (1, 12, 23, 1024, 368078):
-    print(manhattan_dist(mygrid[n]))
+def manhattan_dist(coordinates):
+    """calculates manhattan distance in multiple dimensions"""
+    return sum(abs(coordinate) for coordinate in coordinates)
+
+
+for val in (1, 12, 23, 1024, puzzle_input):
+    print(manhattan_dist(mygrid[val]))
 
 # part one works!
+
+
+def get_neighbors(a, b):
+    return [
+        (a + 1, b    ),  # →
+        (a + 1, b + 1),  # ↗
+        (a    , b + 1),  # ↑
+        (a - 1, b + 1),  # ↖
+        (a - 1, b    ),  # ←
+        (a - 1, b - 1),  # ↙
+        (a    , b - 1),  # ↓
+        (a + 1, b - 1),  # ↘
+    ]
+
+
+mygrid_values = defaultdict(int)
+mygrid_values[(0, 0)] = 1
+
+max_val = 0
+index = 1
+while max_val < puzzle_input:
+    index = index + 1
+    x, y = mygrid[index]
+    mygrid_values[x, y] = sum(mygrid_values[xx, yy] for xx, yy in get_neighbors(x, y))
+    max_val = max(max_val, mygrid_values[x, y])
+
+for val in (1, 2, 3, 4, 5, index):
+    print(mygrid[val], mygrid_values[mygrid[val]])
