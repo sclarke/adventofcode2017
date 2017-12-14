@@ -26,10 +26,6 @@ def solve_1(instr, bank_length=256):
     return shuffled_bank[0] * shuffled_bank[1]
 
 
-print(solve_1(test_input, bank_length=len(test_input) + 1))
-print(solve_1(puzzle_input_1))
-
-
 def encode_input(instr):
     tail = [17, 31, 73, 47, 23]
     return list(instr.encode('ascii')) + tail
@@ -47,8 +43,12 @@ def calc_dense_hash(sparse_input):
     return ''.join(f'{n:02x}' for n in charvals)
 
 
-print(calc_dense_hash(shuffle_bank(encode_input(""))))
-print(calc_dense_hash(shuffle_bank(encode_input("AoC 2017"))))
-print(calc_dense_hash(shuffle_bank(encode_input("1,2,3"))))
-print(calc_dense_hash(shuffle_bank(encode_input("1,2,4"))))
-print(calc_dense_hash(shuffle_bank(encode_input(puzzle_input))))
+if __name__ == "__main__":
+    print(solve_1(test_input, bank_length=len(test_input) + 1))
+    print(solve_1(puzzle_input_1))
+
+    print(calc_dense_hash(shuffle_bank(encode_input(""))))
+    print(calc_dense_hash(shuffle_bank(encode_input("AoC 2017"))))
+    print(calc_dense_hash(shuffle_bank(encode_input("1,2,3"))))
+    print(calc_dense_hash(shuffle_bank(encode_input("1,2,4"))))
+    print(calc_dense_hash(shuffle_bank(encode_input(puzzle_input))))
